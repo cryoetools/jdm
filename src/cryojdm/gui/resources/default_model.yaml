@@ -1,0 +1,168 @@
+# For comparison, the parameters for `net` refer to:
+# https://github.com/zang0902/EM-Net/blob/main/calc_params_flops.py
+
+ablation:
+    basic:
+      mw_factor: 1.5 # D1: Angle range
+      use_blind: True # D2: Blind mask
+      use_wloss: True # L1: Weighted Loss
+    net:
+      use_mamba: True # T1: Mamba or Linear
+      use_pos: True # S1: pos_embed or zeros
+      use_ax: True # S2: AxisWiseLayer or stacked
+      use_attn: True # S3: FusionAttentionBlock or nn.Identity()
+      use_upf: True # S4: UnetrUpBlockF or UnetrUpBlock
+
+ours:
+    max_batch_size: 5
+    scheduler:
+    optimizer: "adam"
+    optim:
+        lr: 1e-3 #1e-4
+    net:
+        img_size:
+        spatial_dims: 3
+        in_channels: 1
+        out_channels: 1
+        feature_size: 12
+        depths: [3, 3, 3, 3]
+
+emnet:
+    max_batch_size: 2
+    scheduler: "LinearWarmupCosineAnnealingLR"
+    sched:
+        warmup_epochs: 10
+        max_epochs: 500
+    optimizer: "sgd"
+    optim:
+        lr: 0.001
+        momentum: 0.99
+        nesterov: True
+        weight_decay: 0.00003
+    net:
+        in_channels: 1
+        out_channels: 1
+        depths: [3, 3, 3, 3]
+        feat_size: [48, 96, 192, 384] # [12, 24, 48, 96] #[24, 48, 96, 192] #
+        hidden_size: 384 # 96 #96 #192 #
+        conv_decoder: False
+        fft_nums: [0, 0, 2, 2]
+        in_shape: [128, 128, 128]
+umamba:
+    max_batch_size: 2
+    scheduler: "LinearWarmupCosineAnnealingLR"
+    sched:
+        warmup_epochs: 10
+        max_epochs: 1000
+    optimizer: "sgd"
+    optim:
+        lr: 0.1
+        momentum: 0.99
+        nesterov: True
+        weight_decay: 0.00003
+    net:
+        input_channels: 1
+        num_classes: 1
+        n_stages: 6
+        features_per_stage: [32, 64, 128, 256, 320, 320]
+        kernel_sizes: [[3, 3, 3], [3, 3, 3], [3, 3, 3], [3, 3, 3], [3, 3, 3], [3, 3, 3]]
+        strides: [[1, 1, 1], [2, 2, 2], [2, 2, 2], [2, 2, 2], [2, 2, 2], [2, 2, 2]]
+        n_conv_per_stage: [2, 2, 2, 2, 2, 2]
+        n_conv_per_stage_decoder: [2, 2, 2, 2, 2]
+        conv_bias: True
+        bottleneck_channels:
+        stem_channels:
+
+
+# The parameters for `optim` and `opt` refer to:
+# https://github.com/Project-MONAI/tutorials/blob/main/acceleration/distributed_training/brats_training_ddp.py
+segresnet:
+    max_batch_size: 8
+    scheduler:
+    optimizer: "novograd"
+    optim:
+        lr: 1e-4
+    net:
+        in_channels: 1
+        out_channels: 1
+        blocks_down: [1, 2, 2, 4]
+        blocks_up: [1, 1, 1]
+        init_filters: 16
+        dropout_prob: 0.2
+
+# The parameters for `optim` and `opt` refer to:
+# https://github.com/Project-MONAI/tutorials/blob/main/3d_segmentation/unet_segmentation_3d_ignite.ipynb
+unet:
+    max_batch_size: 30 #>
+    scheduler:
+    optimizer: "adam"
+    optim:
+        lr: 1e-3
+    net:
+        spatial_dims: 3
+        in_channels: 1
+        out_channels: 1
+        channels: [16, 32, 64, 128, 256]
+        strides: [2, 2, 2, 2]
+        num_res_units: 2
+
+# The parameters for `optim` and `opt` refer to:
+# https://github.com/Project-MONAI/tutorials/blob/main/3d_segmentation/unetr_btcv_segmentation_3d.ipynb
+unetr:
+    max_batch_size: 3
+    scheduler:
+    optimizer: "adamw"
+    optim:
+        lr: 1e-4
+        weight_decay: 1e-5
+    net:
+        img_size:
+        spatial_dims: 3
+        in_channels: 1
+        out_channels: 1
+        feature_size: 32
+        hidden_size: 768
+        mlp_dim: 3072
+        num_heads: 12
+        norm_name: "instance"
+        conv_block: True
+        res_block: True
+        dropout_rate: 0.0
+
+# The parameters for `optim` and `opt` refer to:
+# https://github.com/Project-MONAI/tutorials/blob/main/3d_segmentation/swin_unetr_btcv_segmentation_3d.ipynb
+swinunetr:
+    max_batch_size: 1
+    scheduler:
+    optimizer: "adamw"
+    optim:
+        lr: 1e-4
+        weight_decay: 1e-5
+    net:
+        img_size:
+        spatial_dims: 3
+        in_channels: 1
+        out_channels: 1
+        feature_size: 48
+        depths: [2, 2, 2, 2]
+
+
+
+
+
+
+#     scheduler: "ReduceLROnPlateau"
+#     sched:
+#         mode: "min"
+#         factor: 0.1
+#         patience: 10
+
+#     scheduler: "WarmupCosineSchedule"
+#     sched:
+#         warmup_steps: 500
+#         t_total: 100000
+
+#     scheduler: "StepLR"
+#     sched:
+#         step_size: 1000
+#         gamma: 0.5

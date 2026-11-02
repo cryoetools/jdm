@@ -1,0 +1,13 @@
+.logo a { overflow-wrap: normal }
+
+html[data-theme="light"] {
+  --pst-color-primary: #002FA7;
+  --pst-color-secondary: #6490E8;
+  --pst-color-background: #f8f9fa;
+}
+
+html[data-theme="dark"] {
+  --pst-color-primary: #BDD0FF;
+  --pst-color-secondary: #6490E8;
+  --pst-color-background: #1a1a1a;
+}

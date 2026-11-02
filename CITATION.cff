@@ -1,0 +1,24 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: CryoJDM
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: anonymous
+    family-names: test
+    alias: fedejaure
+identifiers:
+  - type: url
+    value: >-
+      https://github.com/cryoetools/CryoJDM/releases/tag/v0.1.0
+    description: The Software Heritage link for version 0.1.0.
+repository-code: 'https://github.com/cryoetools/CryoJDM'
+abstract: Self-Supervised Method for Joint Denoising and Missing Wedge Compensation in Cryo-Electron Tomography.
+keywords:
+  - CryoJDM
+license: MIT
+version: 0.1.0
